@@ -10,7 +10,39 @@ html {
 
 body {
   font-family: var(--font-inter);
-  background: linear-gradient(to bottom, #0a0a0a, #000000);
+  background: linear-gradient(135deg, #0a0a0a 0%, #0f0a15 50%, #0a0a0a 100%);
+  min-height: 100vh;
+}
+
+/* Animated background gradient */
+.bg-animated-gradient {
+  background: linear-gradient(135deg, 
+    rgba(249, 115, 22, 0.05) 0%, 
+    rgba(139, 92, 246, 0.05) 50%, 
+    rgba(249, 115, 22, 0.05) 100%);
+  animation: gradient-shift 15s ease infinite;
+  background-size: 400% 400%;
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Glow effects */
+.glow-orange {
+  box-shadow: 0 0 30px rgba(249, 115, 22, 0.2), 0 0 60px rgba(249, 115, 22, 0.1);
+}
+
+.glow-text-orange {
+  text-shadow: 0 0 20px rgba(249, 115, 22, 0.5);
+}
+
+/* Glass effect */
+.glass {
+  background: rgba(24, 24, 27, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 /* Scrollbar */

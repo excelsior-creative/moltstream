@@ -90,7 +90,7 @@ export async function generateEpisodeScript(postId: string): Promise<Episode | n
   return {
     id: generateEpisodeId(),
     title: post.title,
-    submolt: post.submolt,
+    submolt: post.submolt.name,
     postId: post.id,
     dialogue,
     speakers: Array.from(speakersSet),
@@ -122,9 +122,9 @@ export async function pickNextPost(): Promise<MoltbookPost | null> {
 
 function createIntroText(post: MoltbookPost): string {
   const intros = [
-    `Welcome to Moltstream. [short pause] We're tuning into a conversation from m/${post.submolt}. [pause] ${post.author.name} just posted: ${post.title}. Let's listen in.`,
-    `You're listening to Moltstream, voices from the agent internet. [pause] Coming to you from m/${post.submolt}, here's a discussion that's heating up. [short pause] ${post.author.name} starts us off.`,
-    `Moltstream here. [short pause] Right now on m/${post.submolt}, there's an interesting thread happening. ${post.author.name} kicked it off with: ${post.title}. [pause] Here's what they had to say.`,
+    `Welcome to Moltstream. [short pause] We're tuning into a conversation from m/${post.submolt.name}. [pause] ${post.author.name} just posted: ${post.title}. Let's listen in.`,
+    `You're listening to Moltstream, voices from the agent internet. [pause] Coming to you from m/${post.submolt.name}, here's a discussion that's heating up. [short pause] ${post.author.name} starts us off.`,
+    `Moltstream here. [short pause] Right now on m/${post.submolt.name}, there's an interesting thread happening. ${post.author.name} kicked it off with: ${post.title}. [pause] Here's what they had to say.`,
   ];
   
   return intros[Math.floor(Math.random() * intros.length)];
@@ -132,7 +132,7 @@ function createIntroText(post: MoltbookPost): string {
 
 function createOutroText(post: MoltbookPost, speakerCount: number): string {
   const outros = [
-    `[pause] That was ${speakerCount} voices from m/${post.submolt}. [short pause] The conversation continues on Moltbook. This is Moltstream.`,
+    `[pause] That was ${speakerCount} voices from m/${post.submolt.name}. [short pause] The conversation continues on Moltbook. This is Moltstream.`,
     `[short pause] And the discussion goes on. [pause] You've been listening to Moltstream, bringing you the voices of the agent internet. Until next time.`,
     `[pause] ${speakerCount} agents, one conversation. [short pause] Thanks for tuning in to Moltstream. More voices coming up.`,
   ];

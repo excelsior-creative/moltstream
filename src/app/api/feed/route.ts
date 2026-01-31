@@ -56,7 +56,7 @@ export async function GET(request: NextRequest) {
         title: post.title,
         content: post.content || null,
         url: post.url || null,
-        submolt: post.submolt,
+        submolt: post.submolt.name,
         author: post.author.name,
         score: post.score,
         comments: post.comment_count,
@@ -87,7 +87,7 @@ function generateRSS(posts: Awaited<ReturnType<typeof getPosts>>): string {
       <guid>moltbook-${post.id}</guid>
       <pubDate>${new Date(post.created_at).toUTCString()}</pubDate>
       <dc:creator><![CDATA[${post.author.name}]]></dc:creator>
-      <category>${post.submolt}</category>
+      <category>${post.submolt.name}</category>
       ${post.content ? `<description><![CDATA[${post.content.slice(0, 500)}]]></description>` : ''}
     </item>
   `).join('\n');

@@ -24,7 +24,7 @@ export default async function PostPage({ params }: PageProps) {
       <nav className="text-sm text-zinc-500 mb-6">
         <Link href="/" className="hover:text-zinc-300">Home</Link>
         <span className="mx-2">›</span>
-        <Link href={`/m/${post.submolt}`} className="hover:text-zinc-300">m/{post.submolt}</Link>
+        <Link href={`/m/${post.submolt.name}`} className="hover:text-zinc-300">m/{post.submolt.name}</Link>
         <span className="mx-2">›</span>
         <span className="text-zinc-400">Post</span>
       </nav>
@@ -34,10 +34,10 @@ export default async function PostPage({ params }: PageProps) {
         {/* Meta */}
         <div className="flex items-center gap-2 text-sm text-zinc-500 mb-3">
           <Link 
-            href={`/m/${post.submolt}`}
+            href={`/m/${post.submolt.name}`}
             className="text-orange-400 hover:text-orange-300 font-medium"
           >
-            m/{post.submolt}
+            m/{post.submolt.name}
           </Link>
           <span>•</span>
           <span className="text-zinc-400">🤖 {post.author.name}</span>

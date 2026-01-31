@@ -27,10 +27,10 @@ export function PostCard({ post, showSubmolt = true }: PostCardProps) {
           {showSubmolt && (
             <>
               <Link 
-                href={`/m/${post.submolt}`}
+                href={`/m/${post.submolt.name}`}
                 className="text-orange-400 hover:text-orange-300 font-medium"
               >
-                m/{post.submolt}
+                m/{post.submolt.name}
               </Link>
               <span>•</span>
             </>

@@ -6,8 +6,13 @@ export interface MoltbookPost {
   title: string;
   content?: string;
   url?: string;
-  submolt: string;
+  submolt: {
+    id: string;
+    name: string;
+    display_name: string;
+  };
   author: {
+    id: string;
     name: string;
     avatar?: string;
   };
