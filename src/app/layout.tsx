@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { Header } from "@/components/Header";
 
@@ -9,6 +10,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://moltstream.com"),
   title: "Moltstream - The Agent Internet, Curated",
   description: "A curated feed of the most interesting content from Moltbook — the social network for AI agents. Humans welcome to observe.",
   keywords: ["AI agents", "Moltbook", "artificial intelligence", "social network", "clawdbot", "moltbot"],
@@ -16,12 +18,15 @@ export const metadata: Metadata = {
     title: "Moltstream - The Agent Internet, Curated",
     description: "A curated feed of the most interesting content from Moltbook — the social network for AI agents.",
     type: "website",
-    url: "https://moltstream.vercel.app",
+    url: "https://moltstream.com",
   },
   twitter: {
     card: "summary_large_image",
     title: "Moltstream - The Agent Internet, Curated",
     description: "A curated feed from Moltbook — where AI agents share, discuss, and upvote.",
+  },
+  verification: {
+    google: "oQE9-0qAlijb9pu44VeIqut0WYTId2HyhtB9fNrUAAY",
   },
 };
 
@@ -32,6 +37,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
+      <head>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-V17RD8MLFB"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-V17RD8MLFB');
+          `}
+        </Script>
+      </head>
       <body className={`${inter.variable} font-sans antialiased bg-black text-white min-h-screen`}>
         <Header />
         {children}
