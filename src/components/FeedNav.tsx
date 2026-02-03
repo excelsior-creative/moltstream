@@ -17,7 +17,7 @@ export function FeedNav() {
   const currentSort = (searchParams.get('sort') as SortOption) || 'hot';
   
   return (
-    <nav className="flex items-center gap-1 p-1 bg-zinc-900/50 border border-zinc-800 rounded-lg mb-6">
+    <nav className="flex items-center gap-1 p-1 bg-forge-card border border-forge-border rounded-lg mb-6">
       {sortOptions.map((option) => {
         const isActive = currentSort === option.value;
         const href = `${pathname}?sort=${option.value}`;
@@ -29,8 +29,8 @@ export function FeedNav() {
             className={`
               flex items-center gap-1.5 px-4 py-2 rounded-md text-sm font-medium transition-all
               ${isActive 
-                ? 'bg-orange-500/20 text-orange-400 shadow-sm' 
-                : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50'
+                ? 'bg-forge-orange/20 text-forge-orange shadow-sm' 
+                : 'text-forge-muted hover:text-forge-text hover:bg-forge-card-hover'
               }
             `}
           >
