@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -17,13 +17,16 @@ html {
 }
 
 body {
-  background: linear-gradient(180deg, var(--color-background) 0%, #0d0d12 100%);
+  background: var(--color-background);
   color: var(--color-foreground);
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   min-height: 100vh;
 }
 
-/* Forge AI glow effects */
+/* ============================================
+   FORGE AI GLOW EFFECTS
+   ============================================ */
+
 .glow-forge {
   box-shadow: 0 0 40px rgba(249, 115, 22, 0.15), 0 0 80px rgba(249, 115, 22, 0.08);
 }
@@ -33,7 +36,26 @@ body {
   box-shadow: inset 0 0 20px rgba(249, 115, 22, 0.05);
 }
 
-/* Forge gradient text */
+.glow-orange {
+  box-shadow: 0 0 30px rgba(249, 115, 22, 0.2), 0 0 60px rgba(249, 115, 22, 0.1);
+}
+
+.glow-orange-intense {
+  box-shadow: 0 0 40px rgba(249, 115, 22, 0.4), 0 0 80px rgba(249, 115, 22, 0.2), 0 0 120px rgba(249, 115, 22, 0.1);
+}
+
+.glow-text-orange {
+  text-shadow: 0 0 20px rgba(249, 115, 22, 0.5);
+}
+
+.forge-glow {
+  text-shadow: 0 0 20px rgba(249, 115, 22, 0.5);
+}
+
+/* ============================================
+   GRADIENT TEXT
+   ============================================ */
+
 .text-forge-gradient {
   background: linear-gradient(135deg, var(--forge-yellow) 0%, var(--forge-orange) 50%, #ea580c 100%);
   -webkit-background-clip: text;
@@ -41,11 +63,35 @@ body {
   background-clip: text;
 }
 
-/* Glass card effect */
+.text-gradient-animated {
+  background: linear-gradient(270deg, #fbbf24, #f59e0b, #f97316, #ea580c, #f97316, #f59e0b, #fbbf24);
+  background-size: 400% 400%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradient-text 8s ease infinite;
+}
+
+@keyframes gradient-text {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* ============================================
+   GLASS & CARD EFFECTS
+   ============================================ */
+
 .glass-card {
   background: rgba(17, 17, 24, 0.8);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.glass-card-elevated {
+  background: rgba(17, 17, 24, 0.9);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(249, 115, 22, 0.15);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 60px rgba(249, 115, 22, 0.1);
 }
 
 .glass {
@@ -54,7 +100,20 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* Animated background gradient */
+/* Card hover lift effect */
+.card-hover-lift {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 40px rgba(249, 115, 22, 0.15);
+}
+
+/* ============================================
+   ANIMATED BACKGROUNDS
+   ============================================ */
+
 .bg-animated-gradient {
   background: linear-gradient(135deg, 
     rgba(249, 115, 22, 0.05) 0%, 
@@ -69,7 +128,7 @@ body {
   50% { background-position: 100% 50%; }
 }
 
-/* Grid pattern background - Forge themed */
+/* Grid pattern background */
 .bg-grid-pattern {
   background-image: 
     linear-gradient(rgba(249, 115, 22, 0.03) 1px, transparent 1px),
@@ -77,20 +136,169 @@ body {
   background-size: 40px 40px;
 }
 
-/* Glow effects */
-.glow-orange {
-  box-shadow: 0 0 30px rgba(249, 115, 22, 0.2), 0 0 60px rgba(249, 115, 22, 0.1);
+/* Radial glow background */
+.bg-radial-glow {
+  background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(249, 115, 22, 0.15), transparent);
 }
 
-.glow-text-orange {
-  text-shadow: 0 0 20px rgba(249, 115, 22, 0.5);
+/* ============================================
+   BUTTONS
+   ============================================ */
+
+.btn-forge {
+  background: linear-gradient(135deg, var(--forge-yellow) 0%, var(--forge-orange) 100%);
+  color: #0a0a0f;
+  font-weight: 600;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
 }
 
-.forge-glow {
-  text-shadow: 0 0 20px rgba(249, 115, 22, 0.5);
+.btn-forge::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--forge-amber) 0%, var(--forge-yellow) 100%);
+  opacity: 0;
+  transition: opacity 0.3s;
 }
 
-/* Custom scrollbar */
+.btn-forge:hover::before {
+  opacity: 1;
+}
+
+.btn-forge:hover {
+  box-shadow: 0 0 30px rgba(249, 115, 22, 0.5), 0 10px 40px rgba(249, 115, 22, 0.3);
+  transform: translateY(-2px);
+}
+
+.btn-forge > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Ghost button */
+.btn-ghost {
+  background: transparent;
+  border: 1px solid rgba(249, 115, 22, 0.3);
+  color: var(--forge-orange);
+  transition: all 0.3s;
+}
+
+.btn-ghost:hover {
+  background: rgba(249, 115, 22, 0.1);
+  border-color: var(--forge-orange);
+  box-shadow: 0 0 20px rgba(249, 115, 22, 0.2);
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+
+/* Fade in */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+/* Scale up */
+@keyframes scaleUp {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.animate-scaleUp {
+  animation: scaleUp 0.3s ease-out forwards;
+}
+
+/* Pulse glow */
+@keyframes pulse-glow {
+  0%, 100% { opacity: 1; box-shadow: 0 0 20px rgba(249, 115, 22, 0.4); }
+  50% { opacity: 0.8; box-shadow: 0 0 40px rgba(249, 115, 22, 0.6); }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Float */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Soundbar animation for visualizer */
+@keyframes soundbar {
+  0%, 100% { height: 12px; }
+  50% { height: 40px; }
+}
+
+.animate-soundbar {
+  animation: soundbar 0.5s ease-in-out infinite;
+}
+
+/* Shimmer effect */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent 0%, rgba(249, 115, 22, 0.1) 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+/* Spin slow */
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 8s linear infinite;
+}
+
+/* Border glow pulse */
+@keyframes border-pulse {
+  0%, 100% { border-color: rgba(249, 115, 22, 0.3); }
+  50% { border-color: rgba(249, 115, 22, 0.6); }
+}
+
+.animate-border-pulse {
+  animation: border-pulse 2s ease-in-out infinite;
+}
+
+/* ============================================
+   ACCENT ELEMENTS
+   ============================================ */
+
+.forge-accent-line {
+  height: 3px;
+  background: linear-gradient(90deg, var(--forge-yellow), var(--forge-orange), transparent);
+  border-radius: 2px;
+}
+
+.forge-accent-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--forge-orange);
+  border-radius: 50%;
+  box-shadow: 0 0 12px var(--forge-orange);
+}
+
+/* ============================================
+   SCROLLBAR
+   ============================================ */
+
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -109,47 +317,26 @@ body {
   background: #3a3a4a;
 }
 
-/* Selection */
+/* ============================================
+   SELECTION
+   ============================================ */
+
 ::selection {
   background: rgba(249, 115, 22, 0.3);
   color: white;
 }
 
-/* Animations */
-@keyframes pulse-glow {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
+/* ============================================
+   UTILITIES
+   ============================================ */
+
+.line-clamp-1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-.animate-pulse-glow {
-  animation: pulse-glow 2s ease-in-out infinite;
-}
-
-/* Forge gradient button */
-.btn-forge {
-  background: linear-gradient(135deg, var(--forge-yellow) 0%, var(--forge-orange) 100%);
-  color: #0a0a0f;
-  font-weight: 600;
-  transition: all 0.2s;
-}
-
-.btn-forge:hover {
-  box-shadow: 0 0 20px rgba(249, 115, 22, 0.4);
-  transform: translateY(-1px);
-}
-
-/* Forge AI accent line */
-.forge-accent-line {
-  height: 3px;
-  background: linear-gradient(90deg, var(--forge-yellow), var(--forge-orange), transparent);
-  border-radius: 2px;
-}
-
-/* Line clamp utilities */
 .line-clamp-2 {
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -164,7 +351,67 @@ body {
   overflow: hidden;
 }
 
-/* Link hover effect */
+/* Link hover */
 a {
   transition: color 0.15s ease;
+}
+
+/* Hide scrollbar but keep functionality */
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* ============================================
+   HERO SPECIFIC
+   ============================================ */
+
+.hero-gradient-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.4;
+  animation: float 6s ease-in-out infinite;
+}
+
+.hero-grid {
+  background-image: 
+    linear-gradient(rgba(249, 115, 22, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(249, 115, 22, 0.05) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 100% 100% at 50% 0%, black 20%, transparent 70%);
+}
+
+/* ============================================
+   AUDIO PLAYER SPECIFIC
+   ============================================ */
+
+.player-progress-bar {
+  background: linear-gradient(90deg, #1a1a24, #111118);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.player-progress-fill {
+  background: linear-gradient(90deg, var(--forge-yellow), var(--forge-orange));
+  box-shadow: 0 0 10px var(--forge-orange);
+  transition: width 0.1s linear;
+}
+
+.player-thumb {
+  width: 16px;
+  height: 16px;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(249, 115, 22, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.player-thumb:hover {
+  transform: scale(1.2);
 }

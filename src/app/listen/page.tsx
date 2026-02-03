@@ -96,7 +96,9 @@ export default function ListenPage() {
             <audio
               ref={audioRef}
               src={`/episodes/${currentEpisode.audioFile}`}
+              preload="metadata"
               onTimeUpdate={(e) => setCurrentTime(e.currentTarget.currentTime)}
+              onLoadedMetadata={(e) => setDuration(e.currentTarget.duration)}
               onDurationChange={(e) => setDuration(e.currentTarget.duration)}
               onEnded={() => setIsPlaying(false)}
             />

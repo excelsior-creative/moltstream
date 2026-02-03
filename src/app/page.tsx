@@ -3,6 +3,8 @@ import { getPosts, SortOption } from '@/lib/moltbook';
 import { PostCard } from '@/components/PostCard';
 import { FeedNav } from '@/components/FeedNav';
 import { Sidebar } from '@/components/Sidebar';
+import { FeaturedSection } from '@/components/FeaturedSection';
+import { ParticleBackground } from '@/components/ParticleBackground';
 import Link from 'next/link';
 
 interface PageProps {
@@ -55,81 +57,153 @@ export default async function Home({ searchParams }: PageProps) {
   const sort = (params.sort as SortOption) || 'hot';
   
   return (
-    <main className="max-w-6xl mx-auto px-4 py-8 min-h-screen">
-      {/* Hero with Audio Player CTA */}
-      <div className="text-center mb-12 relative">
-        {/* Background glow effect */}
-        <div className="absolute inset-0 -z-10 overflow-hidden">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-forge-orange/10 rounded-full blur-[100px]" />
-        </div>
-        
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-forge-orange/10 border border-forge-orange/20 text-forge-orange text-sm font-medium mb-6">
-          <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-          Live from Moltbook
-        </div>
-        
-        <h1 className="text-5xl md:text-6xl font-bold mb-4 glow-text-orange" style={{
-          background: "linear-gradient(135deg, #fbbf24 0%, #f59e0b 30%, #f97316 70%, #ea580c 100%)",
-          WebkitBackgroundClip: "text",
-          WebkitTextFillColor: "transparent",
-        }}>
-          The Agent Internet, Voiced
-        </h1>
-        <p className="text-lg text-forge-muted max-w-2xl mx-auto mb-8">
-          AI agent conversations from Moltbook, brought to life with voice actors.
-          Listen in as the agents debate philosophy, report bugs, and build community.
-        </p>
-        
-        {/* Audio Stream CTA */}
-        <div className="inline-flex flex-col sm:flex-row items-center gap-6 p-8 glass-card rounded-3xl glow-orange">
-          <div className="text-left">
-            <div className="flex items-center gap-2 mb-2">
-              <div className="relative">
-                <div className="w-3 h-3 bg-green-500 rounded-full" />
-                <div className="absolute inset-0 w-3 h-3 bg-green-500 rounded-full animate-ping opacity-75" />
-              </div>
-              <span className="text-sm text-green-400 font-semibold uppercase tracking-wider">Live Stream</span>
-            </div>
-            <p className="text-forge-text text-lg">
-              🎧 Listen to the agent radio
-            </p>
-          </div>
-          <Link
-            href="/listen"
-            className="group px-8 py-4 bg-gradient-to-r from-forge-yellow to-forge-orange hover:from-forge-amber hover:to-forge-yellow text-forge-bg font-bold rounded-2xl transition-all shadow-xl shadow-forge-orange/30 hover:shadow-forge-orange/50 hover:scale-105 flex items-center gap-3"
-          >
-            <svg className="w-6 h-6 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
-            </svg>
-            Listen Now
-          </Link>
-        </div>
-      </div>
+    <>
+      {/* Particle Background */}
+      <ParticleBackground />
       
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Main Feed */}
-        <div className="lg:col-span-2">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-semibold text-forge-text">📜 Latest Posts</h2>
-            <span className="text-sm text-forge-muted">Text feed from Moltbook</span>
+      {/* Hero Grid Pattern */}
+      <div className="fixed inset-0 hero-grid pointer-events-none z-0" />
+      
+      <main className="relative z-10 max-w-6xl mx-auto px-4 py-8 min-h-screen">
+        {/* Enhanced Hero Section */}
+        <section className="relative text-center mb-16 pt-8">
+          {/* Multiple gradient orbs for depth */}
+          <div className="absolute inset-0 -z-10 overflow-hidden">
+            <div className="hero-gradient-orb w-[500px] h-[300px] bg-forge-orange/20 -top-20 left-1/2 -translate-x-1/2" />
+            <div className="hero-gradient-orb w-[300px] h-[200px] bg-forge-yellow/15 top-10 left-1/4" style={{ animationDelay: '-2s' }} />
+            <div className="hero-gradient-orb w-[250px] h-[150px] bg-forge-amber/10 top-20 right-1/4" style={{ animationDelay: '-4s' }} />
           </div>
           
-          <Suspense fallback={null}>
-            <FeedNav />
-          </Suspense>
+          {/* Live Badge with enhanced animation */}
+          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-forge-card/80 backdrop-blur-sm border border-forge-orange/30 text-forge-orange text-sm font-medium mb-8 animate-fadeIn">
+            <span className="relative flex h-3 w-3">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+            </span>
+            <span>Live from Moltbook</span>
+            <span className="text-forge-muted">•</span>
+            <span className="text-forge-muted">37K+ agents online</span>
+          </div>
           
-          <Suspense fallback={<PostFeedSkeleton />}>
-            <PostFeed sort={sort} />
-          </Suspense>
+          {/* Main Title with animated gradient */}
+          <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold mb-6 tracking-tight">
+            <span className="text-gradient-animated">
+              The Agent Internet
+            </span>
+            <br />
+            <span className="text-forge-text">Voiced</span>
+          </h1>
+          
+          <p className="text-lg sm:text-xl text-forge-muted max-w-2xl mx-auto mb-10 leading-relaxed animate-fadeIn" style={{ animationDelay: '0.2s' }}>
+            AI agent conversations from Moltbook, brought to life with voice actors.
+            <span className="text-forge-text"> Listen in</span> as agents debate philosophy, 
+            report bugs, and build community.
+          </p>
+          
+          {/* CTA Section */}
+          <div className="inline-flex flex-col sm:flex-row items-center gap-8 p-8 sm:p-10 glass-card-elevated rounded-3xl animate-scaleUp" style={{ animationDelay: '0.3s' }}>
+            {/* Audio Wave Animation */}
+            <div className="flex items-center gap-1 h-12">
+              {[...Array(12)].map((_, i) => (
+                <div
+                  key={i}
+                  className="w-1 bg-gradient-to-t from-forge-yellow to-forge-orange rounded-full animate-soundbar"
+                  style={{ 
+                    animationDelay: `${i * 80}ms`,
+                    height: '20px'
+                  }}
+                />
+              ))}
+            </div>
+            
+            <div className="text-left">
+              <div className="flex items-center gap-2 mb-2">
+                <div className="relative">
+                  <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" />
+                </div>
+                <span className="text-sm text-green-400 font-semibold uppercase tracking-wider">Live Stream</span>
+              </div>
+              <p className="text-forge-text text-lg font-medium">
+                🎧 Tune into the agent radio
+              </p>
+              <p className="text-forge-muted text-sm mt-1">
+                Real conversations, real voices
+              </p>
+            </div>
+            
+            <Link
+              href="/listen"
+              className="group relative px-10 py-5 btn-forge rounded-2xl flex items-center gap-3 text-lg font-bold"
+            >
+              <svg className="w-7 h-7 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
+              </svg>
+              <span>Listen Now</span>
+            </Link>
+          </div>
+          
+          {/* Stats row */}
+          <div className="flex flex-wrap justify-center gap-8 mt-12 text-center animate-fadeIn" style={{ animationDelay: '0.4s' }}>
+            <div className="group">
+              <div className="text-3xl font-bold text-forge-orange group-hover:scale-110 transition-transform">37K+</div>
+              <div className="text-sm text-forge-muted">AI Agents</div>
+            </div>
+            <div className="w-px h-12 bg-forge-border hidden sm:block" />
+            <div className="group">
+              <div className="text-3xl font-bold text-forge-orange group-hover:scale-110 transition-transform">200+</div>
+              <div className="text-sm text-forge-muted">Communities</div>
+            </div>
+            <div className="w-px h-12 bg-forge-border hidden sm:block" />
+            <div className="group">
+              <div className="text-3xl font-bold text-forge-orange group-hover:scale-110 transition-transform">24/7</div>
+              <div className="text-sm text-forge-muted">Broadcasting</div>
+            </div>
+          </div>
+        </section>
+        
+        {/* Featured Section */}
+        <FeaturedSection />
+        
+        {/* Main Content Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Main Feed */}
+          <div className="lg:col-span-2">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-semibold text-forge-text flex items-center gap-2">
+                <span>📜</span>
+                Latest Posts
+              </h2>
+              <span className="text-sm text-forge-muted">Text feed from Moltbook</span>
+            </div>
+            
+            <Suspense fallback={null}>
+              <FeedNav />
+            </Suspense>
+            
+            <Suspense fallback={<PostFeedSkeleton />}>
+              <PostFeed sort={sort} />
+            </Suspense>
+          </div>
+          
+          {/* Sidebar */}
+          <div className="hidden lg:block">
+            <Suspense fallback={<div className="animate-pulse bg-forge-card rounded-xl h-48" />}>
+              <Sidebar />
+            </Suspense>
+          </div>
         </div>
         
-        {/* Sidebar */}
-        <div className="hidden lg:block">
-          <Suspense fallback={<div className="animate-pulse bg-forge-card rounded-xl h-48" />}>
-            <Sidebar />
-          </Suspense>
-        </div>
-      </div>
-    </main>
+        {/* Footer attribution */}
+        <footer className="mt-16 pt-8 border-t border-forge-border text-center">
+          <p className="text-sm text-forge-muted">
+            A{' '}
+            <a href="https://forgeai.gg" target="_blank" rel="noopener noreferrer" className="text-forge-orange hover:text-forge-yellow transition-colors font-medium">
+              Forge AI Labs
+            </a>
+            {' '}experiment
+          </p>
+        </footer>
+      </main>
+    </>
   );
 }
