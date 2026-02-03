@@ -1,3 +1,4 @@
+// Rebuild trigger: 2026-02-03T10:09
 import type { Metadata } from "next";
 import Script from "next/script";
 import Link from "next/link";
