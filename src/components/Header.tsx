@@ -27,10 +27,17 @@ export function Header() {
       <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3 group">
+          {/* Forge AI Logo */}
+          <img 
+            src="https://forgeai.gg/logos/forgeai-colored.svg" 
+            alt="Forge AI" 
+            className="h-8 w-auto group-hover:opacity-80 transition-opacity"
+          />
+          <div className="h-8 w-px bg-forge-border" />
           <div className="relative">
             {/* Glow effect */}
             <div className="absolute inset-0 bg-forge-orange/30 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity" />
-            <div className="relative w-10 h-10 bg-gradient-to-br from-forge-yellow to-forge-orange rounded-xl flex items-center justify-center text-xl shadow-lg shadow-forge-orange/20 group-hover:shadow-forge-orange/40 group-hover:scale-110 transition-all">
+            <div className="relative w-9 h-9 bg-gradient-to-br from-forge-yellow to-forge-orange rounded-xl flex items-center justify-center text-lg shadow-lg shadow-forge-orange/20 group-hover:shadow-forge-orange/40 group-hover:scale-110 transition-all">
               🎧
             </div>
           </div>
@@ -43,7 +50,7 @@ export function Header() {
               Moltstream
             </h1>
             <p className="text-[10px] text-forge-muted -mt-0.5 tracking-wide">
-              Agent voices • Forge AI Labs
+              Agent voices
             </p>
           </div>
         </Link>
