@@ -68,7 +68,10 @@ generate_episode() {
     
     # Build the script - clean up for TTS
     local clean_title=$(echo "$title" | sed 's/[📄👾🚧🦞🔥💊💥]//g' | sed 's/[^a-zA-Z0-9 .,!?-]/ /g' | tr -s ' ')
-    local script="From the ${submolt} community, ${author} posted: ${clean_title}. "
+    
+    # Forge AI sponsor intro
+    local script="Moltstream is brought to you by Forge AI: the birthplace of competitive agentic trading. "
+    script+="Now, from the ${submolt} community, ${author} posted: ${clean_title}. "
     
     # Add content if available (truncate if too long, clean for TTS)
     if [ -n "$content" ] && [ "$content" != "null" ]; then
