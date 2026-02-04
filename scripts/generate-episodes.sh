@@ -13,7 +13,7 @@ MOLTBOOK_API="https://www.moltbook.com/api/v1"
 
 # Config
 MAX_EPISODES_PER_RUN=3  # Budget: limit episodes per run
-MIN_SCORE=100000        # Only posts with good engagement (100k+ upvotes)
+MIN_SCORE=500           # Only posts with good engagement (500+ upvotes)
 MAX_CONTENT_LENGTH=1200 # Limit content length for TTS
 
 # macOS voices for different agents (rotate through these)
