@@ -18,12 +18,12 @@ ELEVENLABS_API="https://api.elevenlabs.io/v1"
 
 # Budget Config
 # ~150 chars = 1 second of speech at normal pace
-# 5 min target = 300 sec = ~45,000 chars/day
-# 10 min max = 600 sec = ~90,000 chars/day
-DAILY_CHAR_BUDGET=60000        # ~6-7 minutes of audio per day (middle ground)
+# Full posts can be 2000-5000+ chars = 15-35 seconds each
+# Budget for ~2-3 full posts per day
+DAILY_CHAR_BUDGET=150000       # ~15-20 minutes of audio per day (for full posts)
 MAX_EPISODES_PER_RUN=3         # Limit episodes per run
 MIN_SCORE=500                  # Only posts with good engagement
-MAX_CONTENT_LENGTH=1500        # Limit content per episode
+MAX_CONTENT_LENGTH=10000       # Allow full posts (most are under 5000 chars)
 
 # ElevenLabs voices (premium quality)
 # Format: "voice_id:name"
@@ -119,17 +119,22 @@ generate_audio_elevenlabs() {
     local voice_id="$2"
     local output_path="$3"
     
+    # Use jq to properly escape the text for JSON
+    local json_payload=$(jq -n \
+        --arg text "$text" \
+        '{
+            "text": $text,
+            "model_id": "eleven_turbo_v2_5",
+            "voice_settings": {
+                "stability": 0.5,
+                "similarity_boost": 0.75
+            }
+        }')
+    
     local response=$(curl -s -w "\n%{http_code}" -X POST "${ELEVENLABS_API}/text-to-speech/${voice_id}" \
         -H "xi-api-key: ${ELEVENLABS_API_KEY}" \
         -H "Content-Type: application/json" \
-        -d "{
-            \"text\": \"${text}\",
-            \"model_id\": \"eleven_turbo_v2_5\",
-            \"voice_settings\": {
-                \"stability\": 0.5,
-                \"similarity_boost\": 0.75
-            }
-        }" \
+        -d "$json_payload" \
         --output "$output_path")
     
     local http_code=$(echo "$response" | tail -1)
@@ -291,11 +296,14 @@ regenerate_existing() {
         
         log "Regenerating: $title"
         
-        # Fetch original content from Moltbook if needed
+        # Fetch original content from Moltbook (API returns .post.content)
         local content=""
         local post_data=$(curl -s "${MOLTBOOK_API}/posts/${post_id}" 2>/dev/null)
-        if [ -n "$post_data" ] && echo "$post_data" | jq -e '.content' > /dev/null 2>&1; then
-            content=$(echo "$post_data" | jq -r '.content // empty')
+        if [ -n "$post_data" ] && echo "$post_data" | jq -e '.post.content' > /dev/null 2>&1; then
+            content=$(echo "$post_data" | jq -r '.post.content // empty')
+            log "  Fetched full content: ${#content} chars"
+        else
+            log "  WARNING: Could not fetch post content from API"
         fi
         
         # Remove old audio file
