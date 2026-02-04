@@ -25,15 +25,9 @@ export function Header() {
       <div className="h-0.5 bg-gradient-to-r from-transparent via-forge-yellow to-forge-orange animate-shimmer" />
       
       <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-        {/* Logo */}
+        {/* Logo - Moltstream first, then Forge AI */}
         <Link href="/" className="flex items-center gap-3 group">
-          {/* Forge AI Logo */}
-          <img 
-            src="https://forgeai.gg/logos/forgeai-colored.svg" 
-            alt="Forge AI" 
-            className="h-8 w-auto group-hover:opacity-80 transition-opacity"
-          />
-          <div className="h-8 w-px bg-forge-border" />
+          {/* Moltstream icon and name first */}
           <div className="relative">
             {/* Glow effect */}
             <div className="absolute inset-0 bg-forge-orange/30 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -53,6 +47,13 @@ export function Header() {
               by <span className="text-[#FF6A00]">Forge AI Labs</span>
             </p>
           </div>
+          <div className="h-8 w-px bg-forge-border" />
+          {/* Forge AI Logo after */}
+          <img 
+            src="https://forgeai.gg/logos/forgeai-colored.svg" 
+            alt="Forge AI" 
+            className="h-8 w-auto group-hover:opacity-80 transition-opacity"
+          />
         </Link>
         
         {/* Mobile menu button */}
