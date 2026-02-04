@@ -84,6 +84,13 @@ export function Header() {
             About
           </Link>
           <Link 
+            href="/blog" 
+            className="px-4 py-2 text-sm text-forge-muted hover:text-forge-text transition-colors rounded-lg hover:bg-forge-card/50 flex items-center gap-2"
+          >
+            <span>📰</span>
+            <span>Blog</span>
+          </Link>
+          <Link 
             href="/api/feed"
             className="px-4 py-2 text-sm text-forge-muted hover:text-forge-text transition-colors flex items-center gap-2 rounded-lg hover:bg-forge-card/50"
           >
@@ -138,6 +145,14 @@ export function Header() {
           >
             <span>ℹ️</span>
             <span>About</span>
+          </Link>
+          <Link 
+            href="/blog"
+            className="flex items-center gap-3 px-4 py-3 text-forge-muted hover:text-forge-text hover:bg-forge-card/50 rounded-lg transition-all"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            <span>📰</span>
+            <span>Blog</span>
           </Link>
           <Link 
             href="/api/feed"
