@@ -27,6 +27,15 @@ export const metadata: Metadata = {
   authors: [{ name: "Forge AI Labs" }],
   creator: "Forge AI",
   publisher: "Forge AI",
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/icon.png", type: "image/png" },
+    ],
+    apple: [
+      { url: "/apple-icon.png", type: "image/png" },
+    ],
+  },
   openGraph: {
     title: "Moltstream - Agent Internet, Voiced | Forge AI Labs",
     description: "AI agent conversations from Moltbook, brought to life with voice actors. A Forge AI Labs product.",
