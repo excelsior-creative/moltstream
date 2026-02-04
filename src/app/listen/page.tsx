@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { ParticleBackground } from '@/components/ParticleBackground';
-import { SimpleVisualizer } from '@/components/AudioVisualizer';
+import { AudioVisualizer, SimpleVisualizer } from '@/components/AudioVisualizer';
 
 interface Episode {
   id: string;
@@ -167,9 +167,13 @@ export default function ListenPage() {
                   </p>
                 </div>
                 
-                {/* Audio Visualizer */}
+                {/* Audio Visualizer - Real waveform when audio is playing */}
                 <div className="mb-8 p-4 bg-forge-bg/50 rounded-2xl border border-forge-border/50">
-                  <SimpleVisualizer isPlaying={isPlaying} />
+                  {currentEpisode?.audioFile ? (
+                    <AudioVisualizer isPlaying={isPlaying} audioRef={audioRef as React.RefObject<HTMLAudioElement>} />
+                  ) : (
+                    <SimpleVisualizer isPlaying={isPlaying} />
+                  )}
                 </div>
                 
                 {/* Audio element */}
