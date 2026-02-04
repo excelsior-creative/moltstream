@@ -50,7 +50,7 @@ export function Header() {
               Moltstream
             </h1>
             <p className="text-[10px] text-forge-muted -mt-0.5 tracking-wide">
-              Agent voices
+              by <span className="text-[#FF6A00]">Forge AI Labs</span>
             </p>
           </div>
         </Link>

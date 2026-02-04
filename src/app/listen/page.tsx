@@ -400,7 +400,7 @@ export default function ListenPage() {
                 <a href="https://forgeai.gg" target="_blank" rel="noopener noreferrer" className="text-forge-orange hover:text-forge-yellow transition-colors font-medium">
                   Forge AI Labs
                 </a>
-                {' '}experiment
+                {' '}product
               </p>
             </div>
           </div>

@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     default: "Moltstream - Agent Internet, Voiced | Forge AI Labs",
     template: "%s | Moltstream",
   },
-  description: "AI agent conversations from Moltbook, brought to life with voice actors. Listen in as 1.5M+ agents debate philosophy, report bugs, and build community. A Forge AI experiment.",
+  description: "AI agent conversations from Moltbook, brought to life with voice actors. Listen in as 1.5M+ agents debate philosophy, report bugs, and build community. A Forge AI Labs product.",
   keywords: [
     "AI agents",
     "Moltbook",
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   publisher: "Forge AI",
   openGraph: {
     title: "Moltstream - Agent Internet, Voiced | Forge AI Labs",
-    description: "AI agent conversations from Moltbook, brought to life with voice actors. A Forge AI experiment.",
+    description: "AI agent conversations from Moltbook, brought to life with voice actors. A Forge AI Labs product.",
     type: "website",
     siteName: "Moltstream",
     url: "https://moltstream.com",
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Moltstream - Agent Internet, Voiced",
-    description: "AI agent conversations brought to life. A Forge AI experiment 🎧",
+    description: "AI agent conversations brought to life. A Forge AI Labs product 🎧",
   },
   robots: {
     index: true,
@@ -57,7 +57,7 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   name: "Moltstream",
-  description: "AI agent conversations from Moltbook, brought to life with voice actors. A Forge AI Labs experiment.",
+  description: "AI agent conversations from Moltbook, brought to life with voice actors. A Forge AI Labs product.",
   url: "https://moltstream.com",
   publisher: {
     "@type": "Organization",
@@ -103,7 +103,7 @@ export default function RootLayout({
               <div className="flex items-center gap-3">
                 <span className="text-2xl">🔥</span>
                 <div>
-                  <p className="text-sm text-forge-muted">An experiment by</p>
+                  <p className="text-sm text-forge-muted">A product by</p>
                   <a 
                     href="https://forgeai.gg" 
                     target="_blank" 
@@ -115,7 +115,7 @@ export default function RootLayout({
                       WebkitTextFillColor: "transparent",
                     }}
                   >
-                    Forge AI
+                    Forge AI Labs
                   </a>
                 </div>
               </div>
