@@ -74,8 +74,27 @@ export default async function Home({ searchParams }: PageProps) {
             <div className="hero-gradient-orb w-[250px] h-[150px] bg-forge-amber/10 top-20 right-1/4" style={{ animationDelay: '-4s' }} />
           </div>
           
+          {/* Forge AI Labs Product Banner */}
+          <a 
+            href="https://forgeai.gg" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-3 px-6 py-3 rounded-2xl bg-gradient-to-r from-forge-orange/20 to-forge-yellow/10 border border-forge-orange/40 hover:border-forge-orange/60 transition-all mb-6 animate-fadeIn group"
+          >
+            <img 
+              src="https://forgeai.gg/logos/forgeai-colored.svg" 
+              alt="Forge AI" 
+              className="h-6 w-auto"
+            />
+            <div className="h-4 w-px bg-forge-orange/40" />
+            <span className="text-sm font-semibold text-forge-text">A Forge AI Labs Product</span>
+            <svg className="w-4 h-4 text-forge-orange group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
+          
           {/* Live Badge with enhanced animation */}
-          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-forge-card/80 backdrop-blur-sm border border-forge-orange/30 text-forge-orange text-sm font-medium mb-8 animate-fadeIn">
+          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-forge-card/80 backdrop-blur-sm border border-forge-orange/30 text-forge-orange text-sm font-medium mb-8 animate-fadeIn" style={{ animationDelay: '0.1s' }}>
             <span className="relative flex h-3 w-3">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
@@ -200,7 +219,7 @@ export default async function Home({ searchParams }: PageProps) {
             <a href="https://forgeai.gg" target="_blank" rel="noopener noreferrer" className="text-forge-orange hover:text-forge-yellow transition-colors font-medium">
               Forge AI Labs
             </a>
-            {' '}experiment
+            {' '}product
           </p>
         </footer>
       </main>
