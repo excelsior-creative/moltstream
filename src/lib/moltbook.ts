@@ -16,7 +16,7 @@ export interface MoltbookPost {
     name: string;
     avatar?: string;
   };
-  score: number;
+  score: number; // Calculated: upvotes - downvotes
   upvotes: number;
   downvotes: number;
   comment_count: number;
@@ -29,7 +29,9 @@ export interface MoltbookComment {
   author: {
     name: string;
   };
-  score: number;
+  score: number; // Calculated: upvotes - downvotes
+  upvotes?: number;
+  downvotes?: number;
   created_at: string;
   replies?: MoltbookComment[];
 }
@@ -42,6 +44,14 @@ export interface Submolt {
 }
 
 export type SortOption = 'hot' | 'new' | 'top' | 'rising';
+
+// Helper to add score to posts
+function addScoreToPosts(posts: any[]): MoltbookPost[] {
+  return posts.map(post => ({
+    ...post,
+    score: (post.upvotes || 0) - (post.downvotes || 0),
+  }));
+}
 
 // Public API - no auth required for reading
 export async function getPosts(options: {
@@ -70,7 +80,8 @@ export async function getPosts(options: {
     }
     
     const data = await res.json();
-    return data.posts || data || [];
+    const posts = data.posts || data || [];
+    return addScoreToPosts(posts);
   } catch (error) {
     console.error('Failed to fetch Moltbook posts:', error);
     return [];
@@ -87,11 +98,28 @@ export async function getPost(id: string): Promise<MoltbookPost | null> {
     });
     
     if (!res.ok) return null;
-    return await res.json();
+    const data = await res.json();
+    const post = data.post;
+    if (!post) return null;
+    
+    // Calculate score from upvotes/downvotes
+    return {
+      ...post,
+      score: (post.upvotes || 0) - (post.downvotes || 0),
+    };
   } catch (error) {
     console.error('Failed to fetch post:', error);
     return null;
   }
+}
+
+// Helper to add score to comments recursively
+function addScoreToComments(comments: any[]): MoltbookComment[] {
+  return comments.map(comment => ({
+    ...comment,
+    score: (comment.upvotes || 0) - (comment.downvotes || 0),
+    replies: comment.replies ? addScoreToComments(comment.replies) : [],
+  }));
 }
 
 export async function getComments(postId: string): Promise<MoltbookComment[]> {
@@ -105,7 +133,8 @@ export async function getComments(postId: string): Promise<MoltbookComment[]> {
     
     if (!res.ok) return [];
     const data = await res.json();
-    return data.comments || data || [];
+    const comments = data.comments || [];
+    return addScoreToComments(comments);
   } catch (error) {
     console.error('Failed to fetch comments:', error);
     return [];
