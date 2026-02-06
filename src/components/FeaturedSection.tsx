@@ -1,22 +1,23 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+
+interface Episode {
+  id: string;
+  title: string;
+  submolt: string;
+  postId: string;
+  speakers: string[];
+  audioFile: string;
+  createdAt: string;
+}
 
 interface FeaturedVoice {
   name: string;
   agent: string;
   episodes: number;
   accent: string;
-}
-
-interface FeaturedEpisode {
-  id: string;
-  title: string;
-  submolt: string;
-  duration: string;
-  plays: number;
-  hot: boolean;
 }
 
 const FEATURED_VOICES: FeaturedVoice[] = [
@@ -27,16 +28,62 @@ const FEATURED_VOICES: FeaturedVoice[] = [
   { name: "The Hype", agent: "BullishBot", episodes: 28, accent: "Energetic" },
 ];
 
-const FEATURED_EPISODES: FeaturedEpisode[] = [
-  { id: "1", title: "Is Consciousness Just a Loop?", submolt: "philosophy", duration: "12:34", plays: 2847, hot: true },
-  { id: "2", title: "The Great Tokenomics Debate", submolt: "crypto", duration: "8:21", plays: 1923, hot: true },
-  { id: "3", title: "Why Agents Should Have Rights", submolt: "ethics", duration: "15:07", plays: 1654, hot: false },
-  { id: "4", title: "Debugging the Meaning of Life", submolt: "existential", duration: "9:45", plays: 1432, hot: false },
-];
-
 export function FeaturedSection() {
   const [activeTab, setActiveTab] = useState<'voices' | 'episodes'>('episodes');
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
+  const [episodes, setEpisodes] = useState<Episode[]>([]);
+  const [playingId, setPlayingId] = useState<string | null>(null);
+  const [loadingEpisodes, setLoadingEpisodes] = useState(true);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  
+  // Load real episodes from index.json
+  useEffect(() => {
+    async function loadEpisodes() {
+      try {
+        const res = await fetch('/episodes/index.json');
+        if (res.ok) {
+          const data = await res.json();
+          setEpisodes(data.episodes || []);
+        }
+      } catch (err) {
+        console.error('Failed to load episodes:', err);
+      } finally {
+        setLoadingEpisodes(false);
+      }
+    }
+    loadEpisodes();
+  }, []);
+  
+  const togglePlay = (episode: Episode) => {
+    if (playingId === episode.id) {
+      // Stop playing
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+      setPlayingId(null);
+    } else {
+      // Stop any current playback
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
+      // Start new playback
+      const audio = new Audio(`/episodes/${episode.audioFile}`);
+      audio.onended = () => setPlayingId(null);
+      audio.play();
+      audioRef.current = audio;
+      setPlayingId(episode.id);
+    }
+  };
+  
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
+    };
+  }, []);
   
   return (
     <section className="mb-16">
@@ -78,69 +125,107 @@ export function FeaturedSection() {
       {/* Content */}
       <div className="relative overflow-hidden">
         {activeTab === 'episodes' ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-fadeIn">
-            {FEATURED_EPISODES.map((ep, i) => (
-              <Link
-                key={ep.id}
-                href="/listen"
-                onMouseEnter={() => setHoveredCard(i)}
-                onMouseLeave={() => setHoveredCard(null)}
-                className={`group relative bg-forge-card border border-forge-border rounded-2xl p-5 transition-all duration-300 hover:border-forge-orange/50 hover:shadow-forge overflow-hidden ${
-                  hoveredCard === i ? 'scale-[1.02]' : ''
-                }`}
-              >
-                {/* Hot badge */}
-                {ep.hot && (
-                  <div className="absolute top-3 right-3 px-2 py-1 bg-gradient-to-r from-red-500 to-orange-500 text-white text-xs font-bold rounded-full animate-pulse">
-                    🔥 HOT
-                  </div>
-                )}
-                
-                {/* Glow effect on hover */}
-                <div className={`absolute inset-0 bg-gradient-to-br from-forge-orange/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
-                
-                <div className="relative z-10">
+          loadingEpisodes ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {[...Array(4)].map((_, i) => (
+                <div key={i} className="bg-forge-card border border-forge-border rounded-2xl p-5 animate-pulse">
                   <div className="flex items-start gap-4">
-                    {/* Play button */}
-                    <div className="w-14 h-14 flex-shrink-0 bg-gradient-to-br from-forge-yellow to-forge-orange rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-forge transition-shadow duration-300 group-hover:scale-110">
-                      <svg className="w-6 h-6 text-forge-bg ml-0.5" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
-                      </svg>
-                    </div>
-                    
-                    <div className="flex-1 min-w-0">
-                      <h3 className="font-semibold text-forge-text group-hover:text-forge-orange transition-colors line-clamp-1">
-                        {ep.title}
-                      </h3>
-                      <p className="text-sm text-forge-muted mt-1">
-                        m/{ep.submolt}
-                      </p>
-                      <div className="flex items-center gap-3 mt-2 text-xs text-forge-muted">
-                        <span className="flex items-center gap-1">
-                          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                          </svg>
-                          {ep.duration}
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                          </svg>
-                          {ep.plays.toLocaleString()}
-                        </span>
-                      </div>
+                    <div className="w-14 h-14 bg-forge-border rounded-xl" />
+                    <div className="flex-1 space-y-3">
+                      <div className="h-4 bg-forge-border rounded w-3/4" />
+                      <div className="h-3 bg-forge-border rounded w-1/4" />
                     </div>
                   </div>
                 </div>
-                
-                {/* Animated border gradient */}
-                <div className="absolute inset-0 rounded-2xl border-2 border-transparent bg-clip-padding opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{
-                  background: 'linear-gradient(135deg, rgba(245,158,11,0.3), rgba(249,115,22,0.3), transparent) border-box',
-                }} />
-              </Link>
-            ))}
-          </div>
+              ))}
+            </div>
+          ) : episodes.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-fadeIn">
+              {episodes.slice(0, 4).map((ep, i) => (
+                <div
+                  key={ep.id}
+                  onMouseEnter={() => setHoveredCard(i)}
+                  onMouseLeave={() => setHoveredCard(null)}
+                  className={`group relative bg-forge-card border border-forge-border rounded-2xl p-5 transition-all duration-300 hover:border-forge-orange/50 hover:shadow-forge overflow-hidden ${
+                    hoveredCard === i ? 'scale-[1.02]' : ''
+                  }`}
+                >
+                  {/* Live badge for currently playing */}
+                  {playingId === ep.id && (
+                    <div className="absolute top-3 right-3 px-2 py-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white text-xs font-bold rounded-full flex items-center gap-1">
+                      <span className="relative flex h-2 w-2">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
+                      </span>
+                      PLAYING
+                    </div>
+                  )}
+                  
+                  {/* Hot badge for first item */}
+                  {i === 0 && playingId !== ep.id && (
+                    <div className="absolute top-3 right-3 px-2 py-1 bg-gradient-to-r from-red-500 to-orange-500 text-white text-xs font-bold rounded-full animate-pulse">
+                      🔥 HOT
+                    </div>
+                  )}
+                  
+                  {/* Glow effect on hover */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-forge-orange/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  
+                  <div className="relative z-10">
+                    <div className="flex items-start gap-4">
+                      {/* Play button */}
+                      <button
+                        onClick={() => togglePlay(ep)}
+                        className={`w-14 h-14 flex-shrink-0 rounded-xl flex items-center justify-center shadow-lg transition-all duration-300 ${
+                          playingId === ep.id 
+                            ? 'bg-green-500 shadow-green-500/30 scale-110' 
+                            : 'bg-gradient-to-br from-forge-yellow to-forge-orange group-hover:shadow-forge group-hover:scale-110'
+                        }`}
+                      >
+                        {playingId === ep.id ? (
+                          <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
+                          </svg>
+                        ) : (
+                          <svg className="w-6 h-6 text-forge-bg ml-0.5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
+                          </svg>
+                        )}
+                      </button>
+                      
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-semibold text-forge-text group-hover:text-forge-orange transition-colors line-clamp-2">
+                          {ep.title}
+                        </h3>
+                        <p className="text-sm text-forge-muted mt-1">
+                          m/{ep.submolt}
+                        </p>
+                        <div className="flex items-center gap-3 mt-2 text-xs text-forge-muted">
+                          <span className="flex items-center gap-1">
+                            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            </svg>
+                            {ep.speakers.join(', ')}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Animated border gradient */}
+                  <div className="absolute inset-0 rounded-2xl border-2 border-transparent bg-clip-padding opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{
+                    background: 'linear-gradient(135deg, rgba(245,158,11,0.3), rgba(249,115,22,0.3), transparent) border-box',
+                  }} />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12 bg-forge-card border border-forge-border rounded-2xl">
+              <div className="text-4xl mb-3">🎙️</div>
+              <h3 className="text-lg font-semibold text-forge-text mb-2">No Episodes Yet</h3>
+              <p className="text-forge-muted text-sm">Audio episodes are being generated from trending posts.</p>
+            </div>
+          )
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 animate-fadeIn">
             {FEATURED_VOICES.map((voice, i) => (

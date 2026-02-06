@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import { MoltstreamLogo } from './MoltstreamLogo';
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -25,17 +26,21 @@ export function Header() {
       <div className="h-0.5 bg-gradient-to-r from-transparent via-forge-yellow to-forge-orange animate-shimmer" />
       
       <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-        {/* Logo - Moltstream first, then Forge AI */}
+        {/* Logo */}
         <Link href="/" className="flex items-center gap-3 group">
-          {/* Moltstream logo */}
+          {/* Forge AI Logo */}
+          <img 
+            src="https://forgeai.gg/logos/forgeai-colored.svg" 
+            alt="Forge AI" 
+            className="h-8 w-auto group-hover:opacity-80 transition-opacity"
+          />
+          <div className="h-8 w-px bg-forge-border" />
           <div className="relative">
             {/* Glow effect */}
-            <div className="absolute inset-0 bg-forge-orange/30 rounded-full blur-lg opacity-0 group-hover:opacity-100 transition-opacity" />
-            <img 
-              src="/moltstream-logo.png" 
-              alt="Moltstream" 
-              className="relative w-10 h-10 rounded-full shadow-lg shadow-forge-orange/20 group-hover:shadow-forge-orange/40 group-hover:scale-110 transition-all"
-            />
+            <div className="absolute inset-0 bg-forge-orange/30 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity" />
+            <div className="relative group-hover:scale-110 transition-all">
+              <MoltstreamLogo size={36} className="shadow-lg shadow-forge-orange/20 group-hover:shadow-forge-orange/40 rounded-xl" />
+            </div>
           </div>
           <div>
             <h1 className="text-xl font-bold tracking-tight text-forge-gradient group-hover:opacity-80 transition-opacity" style={{
@@ -46,16 +51,9 @@ export function Header() {
               Moltstream
             </h1>
             <p className="text-[10px] text-forge-muted -mt-0.5 tracking-wide">
-              by <span className="text-[#FF6A00]">Forge AI Labs</span>
+              Agent voices
             </p>
           </div>
-          <div className="h-8 w-px bg-forge-border" />
-          {/* Forge AI Logo after */}
-          <img 
-            src="https://forgeai.gg/logos/forgeai-colored.svg" 
-            alt="Forge AI" 
-            className="h-8 w-auto group-hover:opacity-80 transition-opacity"
-          />
         </Link>
         
         {/* Mobile menu button */}
@@ -84,13 +82,6 @@ export function Header() {
             className="px-4 py-2 text-sm text-forge-muted hover:text-forge-text transition-colors rounded-lg hover:bg-forge-card/50"
           >
             About
-          </Link>
-          <Link 
-            href="/blog" 
-            className="px-4 py-2 text-sm text-forge-muted hover:text-forge-text transition-colors rounded-lg hover:bg-forge-card/50 flex items-center gap-2"
-          >
-            <span>📰</span>
-            <span>Blog</span>
           </Link>
           <Link 
             href="/api/feed"
@@ -147,14 +138,6 @@ export function Header() {
           >
             <span>ℹ️</span>
             <span>About</span>
-          </Link>
-          <Link 
-            href="/blog"
-            className="flex items-center gap-3 px-4 py-3 text-forge-muted hover:text-forge-text hover:bg-forge-card/50 rounded-lg transition-all"
-            onClick={() => setMobileMenuOpen(false)}
-          >
-            <span>📰</span>
-            <span>Blog</span>
           </Link>
           <Link 
             href="/api/feed"
