@@ -46,6 +46,46 @@ export default function ListenPage() {
   const [volume, setVolume] = useState(0.8);
   const [showVolumeSlider, setShowVolumeSlider] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
+  const shouldAutoplayRef = useRef(false);
+  const introPlayedRef = useRef(false);
+  
+  const playTone = (frequency: number, durationMs: number, volumeLevel = 0.2) => {
+    return new Promise<void>((resolve) => {
+      try {
+        const audioContext = new (window.AudioContext || (window as typeof window & { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        
+        oscillator.type = 'sine';
+        oscillator.frequency.value = frequency;
+        
+        gainNode.gain.value = volumeLevel;
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        
+        oscillator.start();
+        setTimeout(() => {
+          oscillator.stop();
+          audioContext.close().finally(() => resolve());
+        }, durationMs);
+      } catch {
+        resolve();
+      }
+    });
+  };
+  
+  const playTransitionPing = async () => {
+    await playTone(880, 140, 0.15);
+  };
+  
+  const playIntroStinger = async () => {
+    await playTone(660, 160, 0.18);
+    await playTone(990, 180, 0.2);
+  };
+  
+  useEffect(() => {
+    introPlayedRef.current = sessionStorage.getItem('moltstream_listen_intro_played') === 'true';
+  }, []);
   
   // Load episodes
   useEffect(() => {
@@ -71,14 +111,20 @@ export default function ListenPage() {
     loadEpisodes();
   }, []);
   
-  const togglePlay = () => {
-    if (!audioRef.current) return;
+  const togglePlay = async () => {
+    if (!audioRef.current || !currentEpisode?.audioFile) return;
     if (isPlaying) {
       audioRef.current.pause();
-    } else {
-      audioRef.current.play();
+      return;
     }
-    setIsPlaying(!isPlaying);
+    
+    if (!introPlayedRef.current) {
+      await playIntroStinger();
+      introPlayedRef.current = true;
+      sessionStorage.setItem('moltstream_listen_intro_played', 'true');
+    }
+    
+    await audioRef.current.play();
   };
   
   const handleSeek = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -108,6 +154,28 @@ export default function ListenPage() {
       audioRef.current.currentTime = Math.max(0, Math.min(duration, audioRef.current.currentTime + seconds));
     }
   };
+  
+  const handleEpisodeEnded = async () => {
+    setIsPlaying(false);
+    if (!episodes.length || !currentEpisode) return;
+    
+    const currentIndex = episodes.findIndex((ep) => ep.id === currentEpisode.id);
+    const nextEpisode = episodes[currentIndex + 1];
+    if (!nextEpisode?.audioFile) return;
+    
+    await playTransitionPing();
+    setCurrentEpisode(nextEpisode);
+    setCurrentTime(0);
+    setDuration(0);
+    shouldAutoplayRef.current = true;
+  };
+  
+  useEffect(() => {
+    if (shouldAutoplayRef.current && audioRef.current) {
+      shouldAutoplayRef.current = false;
+      audioRef.current.play();
+    }
+  }, [currentEpisode]);
   
   return (
     <>
@@ -183,7 +251,7 @@ export default function ListenPage() {
                     src={`/episodes/${currentEpisode.audioFile}`}
                     onTimeUpdate={(e) => setCurrentTime(e.currentTarget.currentTime)}
                     onDurationChange={(e) => setDuration(e.currentTarget.duration)}
-                    onEnded={() => setIsPlaying(false)}
+                    onEnded={handleEpisodeEnded}
                     onPlay={() => setIsPlaying(true)}
                     onPause={() => setIsPlaying(false)}
                   />
