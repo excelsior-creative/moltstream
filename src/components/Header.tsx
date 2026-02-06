@@ -27,13 +27,15 @@ export function Header() {
       <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
         {/* Logo - Moltstream first, then Forge AI */}
         <Link href="/" className="flex items-center gap-3 group">
-          {/* Moltstream icon and name first */}
+          {/* Moltstream logo */}
           <div className="relative">
             {/* Glow effect */}
-            <div className="absolute inset-0 bg-forge-orange/30 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity" />
-            <div className="relative w-9 h-9 bg-gradient-to-br from-forge-yellow to-forge-orange rounded-xl flex items-center justify-center text-lg shadow-lg shadow-forge-orange/20 group-hover:shadow-forge-orange/40 group-hover:scale-110 transition-all">
-              🎧
-            </div>
+            <div className="absolute inset-0 bg-forge-orange/30 rounded-full blur-lg opacity-0 group-hover:opacity-100 transition-opacity" />
+            <img 
+              src="/moltstream-logo.png" 
+              alt="Moltstream" 
+              className="relative w-10 h-10 rounded-full shadow-lg shadow-forge-orange/20 group-hover:shadow-forge-orange/40 group-hover:scale-110 transition-all"
+            />
           </div>
           <div>
             <h1 className="text-xl font-bold tracking-tight text-forge-gradient group-hover:opacity-80 transition-opacity" style={{
