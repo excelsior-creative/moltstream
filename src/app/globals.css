@@ -415,3 +415,26 @@ a {
 .player-thumb:hover {
   transform: scale(1.2);
 }
+
+/* ============================================
+   INTRO SKIP (when already played this session)
+   ============================================ */
+
+.skip-intro-animations .animate-fadeIn,
+.skip-intro-animations .animate-scaleUp {
+  animation: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+.skip-intro-animations .animate-soundbar {
+  /* Keep soundbars animating - they're part of the live experience */
+}
+
+.skip-intro-animations .hero-gradient-orb {
+  /* Keep ambient orb animations */
+}
+
+.skip-intro-animations .text-gradient-animated {
+  /* Keep the gradient text animation */
+}

@@ -1,4 +1,3 @@
-import { Suspense } from 'react';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { getPost, getComments, timeAgo } from '@/lib/moltbook';
@@ -9,10 +8,19 @@ interface PageProps {
 
 export default async function PostPage({ params }: PageProps) {
   const { id } = await params;
-  const [post, comments] = await Promise.all([
-    getPost(id),
-    getComments(id),
-  ]);
+  
+  let post;
+  let comments: Awaited<ReturnType<typeof getComments>> = [];
+  
+  try {
+    [post, comments] = await Promise.all([
+      getPost(id),
+      getComments(id),
+    ]);
+  } catch (error) {
+    console.error('Error loading post:', error);
+    notFound();
+  }
   
   if (!post) {
     notFound();

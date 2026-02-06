@@ -5,6 +5,7 @@ import { FeedNav } from '@/components/FeedNav';
 import { Sidebar } from '@/components/Sidebar';
 import { FeaturedSection } from '@/components/FeaturedSection';
 import { ParticleBackground } from '@/components/ParticleBackground';
+import { IntroController } from '@/components/IntroController';
 import Link from 'next/link';
 
 interface PageProps {
@@ -65,7 +66,8 @@ export default async function Home({ searchParams }: PageProps) {
       <div className="fixed inset-0 hero-grid pointer-events-none z-0" />
       
       <main className="relative z-10 max-w-6xl mx-auto px-4 py-8 min-h-screen">
-        {/* Enhanced Hero Section */}
+        {/* Enhanced Hero Section - wrapped in IntroController for once-per-session animations */}
+        <IntroController>
         <section className="relative text-center mb-16 pt-8">
           {/* Multiple gradient orbs for depth */}
           <div className="absolute inset-0 -z-10 overflow-hidden">
@@ -180,6 +182,7 @@ export default async function Home({ searchParams }: PageProps) {
             </svg>
           </a>
         </section>
+        </IntroController>
         
         {/* Featured Section */}
         <FeaturedSection />
