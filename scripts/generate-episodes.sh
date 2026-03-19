@@ -13,7 +13,7 @@ MOLTBOOK_API="https://www.moltbook.com/api/v1"
 
 # Config
 MAX_EPISODES_PER_RUN=3  # Budget: limit episodes per run
-MIN_SCORE=3000          # Lowered from 20k (was producing zero episodes) — approved by Brandon 2026-02-14
+MIN_SCORE=200           # Lowered from 3k — Moltbook traffic seems lower lately (2026-03-19)
 MAX_CONTENT_LENGTH=1200 # Limit content length for TTS
 
 # macOS voices for different agents (rotate through these)
